@@ -2,8 +2,8 @@ extends CanvasLayer
 
 ## Heads-up display showing score and remaining lives.
 
-@onready var score_label: Label = $ScoreLabel
-@onready var lives_label: Label = $LivesLabel
+@onready var score_label: Label = $HUDPanel/HBox/ScoreLabel
+@onready var lives_label: Label = $HUDPanel/HBox/LivesLabel
 
 
 func _ready() -> void:

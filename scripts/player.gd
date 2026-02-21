@@ -12,7 +12,7 @@ var is_alive: bool = true
 @onready var muzzle: Marker2D = $Muzzle
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var invincibility_timer: Timer = $InvincibilityTimer
-@onready var sprite: Polygon2D = $ShipSprite
+@onready var ship_visuals: Array[Node] = []
 
 const BULLET_SCENE = preload("res://scenes/bullet.tscn")
 
@@ -26,6 +26,9 @@ func _ready() -> void:
 	shoot_timer.timeout.connect(_on_shoot_timer_timeout)
 	invincibility_timer.timeout.connect(_on_invincibility_timer_timeout)
 	area_entered.connect(_on_area_entered)
+	for child in get_children():
+		if child is Polygon2D:
+			ship_visuals.append(child)
 
 
 func _process(delta: float) -> void:
@@ -50,9 +53,12 @@ func _process(delta: float) -> void:
 
 	# Blink during invincibility
 	if is_invincible:
-		sprite.visible = !sprite.visible
+		var blink = !ship_visuals[0].visible if ship_visuals.size() > 0 else true
+		for v in ship_visuals:
+			v.visible = blink
 	else:
-		sprite.visible = true
+		for v in ship_visuals:
+			v.visible = true
 
 
 func shoot() -> void:
@@ -85,7 +91,8 @@ func start_invincibility() -> void:
 
 func _on_invincibility_timer_timeout() -> void:
 	is_invincible = false
-	sprite.visible = true
+	for v in ship_visuals:
+		v.visible = true
 
 
 func die() -> void:
