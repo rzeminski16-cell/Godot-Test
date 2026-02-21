@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqbullet00001"]
+
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_bullet"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bullet"]
+size = Vector2(4, 12)
+
+[node name="Bullet" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_bullet")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bullet")
+
+[node name="BulletSprite" type="Polygon2D" parent="."]
+color = Color(0, 1, 0.5, 1)
+polygon = PackedVector2Array(-2, -6, 2, -6, 2, 6, -2, 6)
